@@ -164,9 +164,9 @@ if st.button('Create Plot'):
                     x=df['Timestamp'], y=df[col], 
                     mode='lines', 
                     name=col, 
-                    stackgroup='one',
+                    # stackgroup='one',
+                    # fill='tonexty',
                     line=dict(color=f'rgba({color},1)'),  # 완전 불투명
-                    fill='tonexty',
                     fillcolor=f'rgba({color},0.2)',  # 20% 투명도
                     showlegend=True,
                     legendgroup=col
