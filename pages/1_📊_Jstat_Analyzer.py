@@ -1,16 +1,27 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+# from streamlit.components.v1 import html
 
 # Streamlit 페이지 설정
 st.set_page_config(
-    page_title="Heap Tracker",
+    page_title="Jstat Analyzer",
     page_icon="📊",
     layout="wide"
 )
 
-st.markdown("# Heap Tracker")
-st.sidebar.header("Jstat Data Visualization")
+st.markdown("# Jstat Analyzer")
+# st.sidebar.header("Jstat Data Visualization")
+
+# Streamlit 사이드바 설정
+st.sidebar.title("Support Us")
+st.sidebar.markdown("""
+If you find this app helpful, consider supporting us by buying us a coffee. Your support is greatly appreciated!
+""")
+st.sidebar.markdown(
+    '<a href="https://www.buymeacoffee.com/call518"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=call518&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff" /></a>',
+    unsafe_allow_html=True
+)
 
 # 도움말 섹션
 with st.expander("Help"):

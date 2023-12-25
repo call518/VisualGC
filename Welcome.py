@@ -9,6 +9,16 @@ st.set_page_config(
 
 # st.sidebar.success("")
 
+# Streamlit 사이드바 설정
+st.sidebar.title("Support Us")
+st.sidebar.markdown("""
+If you find this app helpful, consider supporting us by buying us a coffee. Your support is greatly appreciated!
+""")
+st.sidebar.markdown(
+    '<a href="https://www.buymeacoffee.com/call518"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=call518&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff" /></a>',
+    unsafe_allow_html=True
+)
+
 st.write("# Welcome to VisualGC! 👋")
 
 st.markdown("""
@@ -26,4 +36,6 @@ At VisualGC.io, we offer a streamlined solution to visualize JVM garbage collect
 Get started with VisualGC.io today and experience the easiest way to visualize and understand your JVM’s garbage collection activities!
 
 😎Contact to Admin: [JungJungIn](mailto:call518+visualgc@gmail.com)
-""")
+""",
+unsafe_allow_html=True
+)
