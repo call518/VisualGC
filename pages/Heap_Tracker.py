@@ -185,16 +185,16 @@ if st.button('Create Plot'):
 
         # Heap Utilization 차트 생성
         st.markdown("## Heap Utilization")
-        create_chart("Heap Utilization", ['S0U', 'S1U', 'EU', 'OU'], "Usage (KB)", ['99, 102, 250', '239, 85, 59', '0, 204, 150', '171, 99, 250'])
+        create_chart("Heap Utilization", ['S0U', 'S1U', 'EU', 'MU', 'CCSU', 'OU'], "Usage (KB)", ['99, 102, 250', '239, 85, 59', '0, 204, 150', '255, 100, 100', '128, 255, 0', '171, 99, 250'])
 
         # Heap Capacity 차트 생성
         st.markdown("## Heap Capacity")
-        create_chart("Heap Capacity", ['S0C', 'S1C', 'EC', 'OC'], "Capacity (KB)", ['255, 161, 90', '25, 211, 243', '255, 102, 146', '182, 232, 128'])
+        create_chart("Heap Capacity", ['S0C', 'S1C', 'EC', 'MC', 'CCSC', 'OC'], "Capacity (KB)", ['99, 102, 250', '239, 85, 59', '0, 204, 150', '255, 100, 100', '128, 255, 0', '171, 99, 250'])
 
         # Total Garbage Collection Events 차트 생성
         st.markdown("## Total Garbage Collection Events")
-        create_chart("Garbage Collection Events", ['YGC', 'FGC'], "Events", ['255, 151, 255', '254, 203, 82'])
+        create_chart("Garbage Collection Events", ['YGC', 'FGC'], "Events", ['0, 204, 150', '255, 28, 37'])
 
         # Total Garbage Collection Time 차트 생성
         st.markdown("## Total Garbage Collection Time")
-        create_chart("Garbage Collection Time", ['YGCT', 'FGCT', 'GCT'], "Time (Sec)", ['255, 161, 90', '25, 211, 243', '255, 102, 146'])
+        create_chart("Garbage Collection Time", ['YGCT', 'FGCT', 'GCT'], "Time (Sec)", ['0, 204, 150', '255, 28, 37', '99, 102, 250'])
