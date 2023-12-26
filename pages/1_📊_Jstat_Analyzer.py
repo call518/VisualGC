@@ -10,7 +10,17 @@ st.set_page_config(
     layout="wide"
 )
 
-st.markdown("# Jstat Analyzer")
+st.markdown(
+    """
+    # Jstat Analyzer
+    #### jstat log collection commands
+    ```
+    # jstat -gc -t {PID} {interval}
+    
+    Example) jstat -gc -t 384746 1000ms
+    ```
+    """
+)
 # st.sidebar.header("Jstat Data Visualization")
 
 # Streamlit 사이드바 설정
