@@ -219,7 +219,7 @@ if st.button('Create Plot'):
                     mode='lines', 
                     name=col, 
                     # stackgroup='one',
-                    # fill='tonexty',
+                    # fill='tonexty', # 라인 아래 채움 불투명도 활성/비활성
                     line=dict(color=f'rgba({color},1)'),  # 완전 불투명
                     fillcolor=f'rgba({color},0.2)',  # 20% 투명도
                     showlegend=True,
