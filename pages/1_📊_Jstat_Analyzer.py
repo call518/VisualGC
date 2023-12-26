@@ -135,10 +135,13 @@ if input_type == 'Text Input':
         """,
         height=300
     )
+    data_input_provided = bool(txt_jstat.strip())
+
 # 파일 업로드
 elif input_type == 'File Upload':
     uploaded_file = st.file_uploader("Choose a file")
-    if uploaded_file is not None:
+    data_input_provided = uploaded_file is not None
+    if data_input_provided:
         # 파일 내용 읽기
         txt_jstat = uploaded_file.getvalue().decode("utf-8")
         # 업로드된 파일명 표시
@@ -167,88 +170,91 @@ def process_data(txt_jstat):
 
 # 입력 받은 데이터 처리
 if st.button('Create Plot'):
-    with st.spinner('Generating plot...'):
-        # 데이터를 줄 단위로 분리하고 DataFrame 생성
-        lines = txt_jstat.split('\n')
-        data = []
-        header = None
+    if not data_input_provided:
+        st.error("Please provide jstat data through Text Input or upload a file before creating the plot.")
+    else:
+        with st.spinner('Generating plot...'):
+            # 데이터를 줄 단위로 분리하고 DataFrame 생성
+            lines = txt_jstat.split('\n')
+            data = []
+            header = None
 
-        for line in lines:
-            if line.strip():
-                # 헤더인 경우
-                if 'Timestamp' in line:
-                    header = line.split()
-                    continue
-                # 데이터 추가
-                if header:
-                    data.append(line.split())
+            for line in lines:
+                if line.strip():
+                    # 헤더인 경우
+                    if 'Timestamp' in line:
+                        header = line.split()
+                        continue
+                    # 데이터 추가
+                    if header:
+                        data.append(line.split())
 
-        df = pd.DataFrame(data, columns=header)
-        
-        # 데이터 타입 변환
-        for col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors='coerce')
-
-        # 함수: GC 이벤트를 표시하는 막대 생성
-        def create_gc_bars(df, gc_column, color):
-            bars = []
-            for i in df.index[df[gc_column].diff() > 0]:
-                bars.append(
-                    go.layout.Shape(
-                        type="rect",
-                        x0=df['Timestamp'][i-1],
-                        x1=df['Timestamp'][i],
-                        y0=0,
-                        y1=1,
-                        xref="x",
-                        yref="paper",
-                        opacity=0.5,
-                        fillcolor=f'rgba({color},0.2)',  # 20% 투명도 적용
-                        layer="below",
-                        line_width=0  # 테두리 없애기
-                    )
-                )
-            return bars
-
-        # 차트 생성 함수
-        def create_chart(title, columns, y_label, colors):
-            fig = go.Figure()
-            for col, color in zip(columns, colors):
-                fig.add_trace(go.Scatter(
-                    x=df['Timestamp'], y=df[col], 
-                    mode='lines', 
-                    name=col, 
-                    # stackgroup='one',
-                    # fill='tonexty', # 라인 아래 채움 불투명도 활성/비활성
-                    line=dict(color=f'rgba({color},1)'),  # 완전 불투명
-                    fillcolor=f'rgba({color},0.2)',  # 20% 투명도
-                    showlegend=True,
-                    legendgroup=col
-                ))
+            df = pd.DataFrame(data, columns=header)
             
-            fig.update_layout(
-                # title=title,
-                xaxis_title="Timestamp",
-                yaxis_title=y_label,
-                legend_title="Legend",
-                hovermode="x unified"
-            )
+            # 데이터 타입 변환
+            for col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors='coerce')
 
-            fig.update_layout(shapes=create_gc_bars(df, 'YGC', '255, 215, 0') + create_gc_bars(df, 'FGC', '255, 28, 37'))
-            st.plotly_chart(fig, use_container_width=True)
+            # 함수: GC 이벤트를 표시하는 막대 생성
+            def create_gc_bars(df, gc_column, color):
+                bars = []
+                for i in df.index[df[gc_column].diff() > 0]:
+                    bars.append(
+                        go.layout.Shape(
+                            type="rect",
+                            x0=df['Timestamp'][i-1],
+                            x1=df['Timestamp'][i],
+                            y0=0,
+                            y1=1,
+                            xref="x",
+                            yref="paper",
+                            opacity=0.5,
+                            fillcolor=f'rgba({color},0.2)',  # 20% 투명도 적용
+                            layer="below",
+                            line_width=0  # 테두리 없애기
+                        )
+                    )
+                return bars
 
-        # Heap Utilization 차트 생성
-        st.markdown("## Heap Utilization")
-        create_chart("Heap Utilization", ['S0U', 'S1U', 'EU', 'MU', 'CCSU', 'OU'], "Usage (KB)", ['255, 155, 0', '255, 24, 0', '0, 204, 150', '3, 61, 179', '128, 255, 0', '151, 0, 255'])
+            # 차트 생성 함수
+            def create_chart(title, columns, y_label, colors):
+                fig = go.Figure()
+                for col, color in zip(columns, colors):
+                    fig.add_trace(go.Scatter(
+                        x=df['Timestamp'], y=df[col], 
+                        mode='lines', 
+                        name=col, 
+                        # stackgroup='one',
+                        # fill='tonexty', # 라인 아래 채움 불투명도 활성/비활성
+                        line=dict(color=f'rgba({color},1)'),  # 완전 불투명
+                        fillcolor=f'rgba({color},0.2)',  # 20% 투명도
+                        showlegend=True,
+                        legendgroup=col
+                    ))
+                
+                fig.update_layout(
+                    # title=title,
+                    xaxis_title="Timestamp",
+                    yaxis_title=y_label,
+                    legend_title="Legend",
+                    hovermode="x unified"
+                )
 
-        # Heap Capacity 차트 생성
-        st.markdown("## Heap Capacity")
-        create_chart("Heap Capacity", ['S0C', 'S1C', 'EC', 'MC', 'CCSC', 'OC'], "Capacity (KB)", ['255, 155, 0', '255, 24, 0', '0, 204, 150', '3, 61, 179', '128, 255, 0', '151, 0, 255'])
+                fig.update_layout(shapes=create_gc_bars(df, 'YGC', '255, 215, 0') + create_gc_bars(df, 'FGC', '255, 28, 37'))
+                st.plotly_chart(fig, use_container_width=True)
 
-        # Total Garbage Collection Events 차트 생성
-        st.markdown("## Total Garbage Collection Events")
-        create_chart("Garbage Collection Events", ['YGC', 'FGC'], "Events", ['0, 204, 150', '255, 28, 37'])
+            # Heap Utilization 차트 생성
+            st.markdown("## Heap Utilization")
+            create_chart("Heap Utilization", ['S0U', 'S1U', 'EU', 'MU', 'CCSU', 'OU'], "Usage (KB)", ['255, 155, 0', '255, 24, 0', '0, 204, 150', '3, 61, 179', '128, 255, 0', '151, 0, 255'])
 
-        # Total Garbage Collection Time 차트 생성
-        st.markdown("## Total Garbage Collection Time")
-        create_chart("Garbage Collection Time", ['YGCT', 'FGCT', 'GCT'], "Time (Sec)", ['0, 204, 150', '255, 28, 37', '99, 102, 250'])
+            # Heap Capacity 차트 생성
+            st.markdown("## Heap Capacity")
+            create_chart("Heap Capacity", ['S0C', 'S1C', 'EC', 'MC', 'CCSC', 'OC'], "Capacity (KB)", ['255, 155, 0', '255, 24, 0', '0, 204, 150', '3, 61, 179', '128, 255, 0', '151, 0, 255'])
+
+            # Total Garbage Collection Events 차트 생성
+            st.markdown("## Total Garbage Collection Events")
+            create_chart("Garbage Collection Events", ['YGC', 'FGC'], "Events", ['0, 204, 150', '255, 28, 37'])
+
+            # Total Garbage Collection Time 차트 생성
+            st.markdown("## Total Garbage Collection Time")
+            create_chart("Garbage Collection Time", ['YGCT', 'FGCT', 'GCT'], "Time (Sec)", ['0, 204, 150', '255, 28, 37', '99, 102, 250'])
