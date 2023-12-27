@@ -239,13 +239,15 @@ if st.button('Create Plot'):
                     legend_title="Legend",
                     hovermode="x unified"
                 )
+                
+                fig.update_yaxes(tickformat=',')
 
                 fig.update_layout(shapes=create_gc_bars(df, 'YGC', '255, 215, 0') + create_gc_bars(df, 'FGC', '255, 28, 37'))
                 st.plotly_chart(fig, use_container_width=True)
 
             # Heap Utilization 차트 생성
             st.markdown("## Heap Utilization")
-            create_chart("Heap Utilization", ['S0U', 'S1U', 'EU', 'MU', 'CCSU', 'OU'], "Usage (KB)", ['255, 155, 0', '255, 24, 0', '0, 204, 150', '3, 61, 179', '128, 255, 0', '151, 0, 255'])
+            create_chart("Heap Utilization", ['S0U', 'S1U', 'EU', 'MU', 'CCSU', 'OU'], "Used (KB)", ['255, 155, 0', '255, 24, 0', '0, 204, 150', '3, 61, 179', '128, 255, 0', '151, 0, 255'])
 
             # Heap Capacity 차트 생성
             st.markdown("## Heap Capacity")
