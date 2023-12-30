@@ -65,7 +65,8 @@ input_type = st.radio("Choose your input method:", ('Text Input', 'File Upload')
 if input_type == 'Text Input':
     txt_jstat = st.text_area(
         "Enter your jstat results here:",
-        value = """Timestamp        S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT
+        value = """================= (This is sample data. Replace it with your own data.) ================= 
+        Timestamp        S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT
             21.7 16896.0 21504.0 15657.1  0.0   122880.0 96107.2   899584.0   742457.8  4864.0 2952.7 512.0  277.6       6    0.078   3      0.068    0.146
             22.7 20480.0 19968.0  0.0    0.0   120320.0 17950.7  1128448.0   859646.8  4864.0 2954.9 512.0  277.6       7    0.090   4      0.088    0.178
             23.7 20480.0 19968.0  0.0    0.0   120320.0 57013.4  1128448.0   859646.8  4864.0 2954.9 512.0  277.6       7    0.090   4      0.088    0.178
