@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="VisualGC",
@@ -7,25 +6,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-# Google AdSense 코드
-adsense_code = '''
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4969032818064598"
-     crossorigin="anonymous"></script>
-<!-- 광고 단위 코드 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-XXXXXX"
-     data-ad-slot="XXXXXX"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-'''
-
-# Streamlit 앱에 광고 삽입
-components.html(adsense_code, height=100)
 
 # Streamlit 사이드바 설정
 st.sidebar.title("Support Us")

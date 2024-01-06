@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-import streamlit.components.v1 as components
 
 # Streamlit 페이지 설정
 st.set_page_config(
@@ -9,24 +8,6 @@ st.set_page_config(
     page_icon="📊",
     layout="wide"
 )
-
-# Google AdSense 코드
-adsense_code = '''
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4969032818064598" crossorigin="anonymous"></script>
-<!-- 광고 단위 코드 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-XXXXXX"
-     data-ad-slot="XXXXXX"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-'''
-
-# Streamlit 앱에 광고 삽입
-components.html(adsense_code, height=100)
 
 st.markdown(
     """
