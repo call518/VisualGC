@@ -10,7 +10,8 @@ st.set_page_config(
 
 # Google AdSense 코드
 adsense_code = '''
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4969032818064598" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4969032818064598"
+     crossorigin="anonymous"></script>
 <!-- 광고 단위 코드 -->
 <ins class="adsbygoogle"
      style="display:block"
