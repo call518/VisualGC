@@ -16,7 +16,7 @@ st.markdown(
     ```
     # jstat -gc -t {PID} {interval}
     
-    Example) jstat -gc -t 384746 1000ms
+    Example) jstat -gc -t 384746 10000ms
     ```
     """
 )
