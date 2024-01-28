@@ -168,6 +168,43 @@ def process_data(txt_jstat):
         df[col] = pd.to_numeric(df[col], errors='coerce')
     return df
 
+### 입력 데이터가 1만 라인 이상일 경우, 인접 2라인을 평균처리하여 1라인으로 만듬(라인수 50%로 줄임)
+### 한번 50%화 하였으나, 여전히 1만 라인 이상일 경우, 1만 라인 이하가 될때까지 반복
+### 이 로직은 테스트해보지 못했음
+# def process_data(txt_jstat):
+#     lines = txt_jstat.split('\n')
+#     header = None
+
+#     # 헤더 추출
+#     for line in lines:
+#         if 'Timestamp' in line:
+#             header = line.split()
+#             break
+
+#     # 데이터 병합 함수
+#     def merge_data(lines):
+#         merged_data = []
+#         for i in range(0, len(lines), 2):
+#             if i + 1 < len(lines):
+#                 line1 = lines[i].split()
+#                 line2 = lines[i + 1].split()
+#                 averaged_line = [(float(a) + float(b)) / 2 for a, b in zip(line1, line2)]
+#                 merged_data.append(averaged_line)
+#             else:
+#                 # 마지막 라인 처리 (홀수 라인일 경우)
+#                 merged_data.append([float(x) for x in lines[i].split()])
+#         return merged_data
+
+#     # 데이터 병합 반복
+#     while len(lines) > 10000:
+#         lines = merge_data(lines)
+
+#     # 최종 데이터 프레임 생성
+#     data = [line.split() for line in lines if line.strip() and 'Timestamp' not in line]
+#     df = pd.DataFrame(data, columns=header)
+#     df = df.apply(pd.to_numeric, errors='coerce')
+#     return df
+
 # 입력 받은 데이터 처리
 if st.button('Create Plot'):
     if not data_input_provided:
