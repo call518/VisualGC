@@ -28,7 +28,7 @@ st.sidebar.markdown("""
 If you find this app helpful, consider supporting us by buying us a coffee. Your support is greatly appreciated!
 """)
 st.sidebar.markdown(
-    '<a href="https://www.buymeacoffee.com/call518"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=call518&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff" /></a>',
+    '<a href="https://www.buymeacoffee.com/call518" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 55px !important;width: 217px !important;" ></a>',
     unsafe_allow_html=True
 )
 
