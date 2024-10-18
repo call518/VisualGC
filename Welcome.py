@@ -9,9 +9,9 @@ st.set_page_config(
 
 # Streamlit 사이드바 설정
 st.sidebar.title("Support Us")
-st.sidebar.markdown("""
-If you find this app helpful, consider supporting us by buying us a coffee. Your support is greatly appreciated!
-""")
+#st.sidebar.markdown("""
+#If you find this app helpful, consider supporting us by buying us a coffee. Your support is greatly appreciated!
+#""")
 st.sidebar.markdown(
     '<a href="https://www.buymeacoffee.com/call518"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=call518&button_colour=9AD9FF&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff" /></a>',
     unsafe_allow_html=True
