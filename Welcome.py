@@ -33,7 +33,7 @@ At VisualGC.io, we offer a streamlined solution to visualize JVM garbage collect
 
 Get started with VisualGC.io today and experience the easiest way to visualize and understand your JVM’s garbage collection activities!
 
-😎Contact to Admin: [JungJungIn](mailto:call518+visualgc@gmail.com)
+😎Contact to Admin: [Admin](mailto:call518+visualgc@gmail.com)
 """,
 unsafe_allow_html=True
 )
