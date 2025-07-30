@@ -151,9 +151,15 @@ elif input_type == 'File Upload':
 
 # 입력 받은 데이터 처리
 def process_data(txt_jstat):
+    HEADER_LINE = "Timestamp        S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT"
     lines = txt_jstat.split('\n')
     data = []
     header = None
+
+    # 첫 줄만 검사하여 헤더 존재 여부 판단
+    has_header = 'Timestamp' in lines[0]
+    if not has_header:
+        lines = [HEADER_LINE] + lines
 
     for line in lines:
         if line.strip():
@@ -211,28 +217,28 @@ if st.button('Create Plot'):
         st.error("Please provide jstat data through Text Input or upload a file before creating the plot.")
     else:
         with st.spinner('Generating plot...'):
-            # 데이터를 줄 단위로 분리하고 DataFrame 생성
+            # HEADER가 없으면 자동 추가
+            HEADER_LINE = "Timestamp        S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT"
             lines = txt_jstat.split('\n')
+            # 첫 줄만 검사하여 헤더 존재 여부 판단
+            has_header = 'Timestamp' in lines[0]
+            if not has_header:
+                lines = [HEADER_LINE] + lines
+
             data = []
             header = None
-
             for line in lines:
                 if line.strip():
-                    # 헤더인 경우
                     if 'Timestamp' in line:
                         header = line.split()
                         continue
-                    # 데이터 추가
                     if header:
                         data.append(line.split())
 
             df = pd.DataFrame(data, columns=header)
-            
-            # 데이터 타입 변환
             for col in df.columns:
                 df[col] = pd.to_numeric(df[col], errors='coerce')
 
-            # 함수: GC 이벤트를 표시하는 막대 생성
             def create_gc_bars(df, gc_column, color):
                 bars = []
                 for i in df.index[df[gc_column].diff() > 0]:
@@ -246,54 +252,40 @@ if st.button('Create Plot'):
                             xref="x",
                             yref="paper",
                             opacity=0.5,
-                            fillcolor=f'rgba({color},0.2)',  # 20% 투명도 적용
+                            fillcolor=f'rgba({color},0.2)',
                             layer="below",
-                            line_width=0  # 테두리 없애기
+                            line_width=0
                         )
                     )
                 return bars
 
-            # 차트 생성 함수
             def create_chart(title, columns, y_label, colors):
                 fig = go.Figure()
                 for col, color in zip(columns, colors):
                     fig.add_trace(go.Scatter(
-                        x=df['Timestamp'], y=df[col], 
-                        mode='lines', 
-                        name=col, 
-                        # stackgroup='one',
-                        # fill='tonexty', # 라인 아래 채움 불투명도 활성/비활성
-                        line=dict(color=f'rgba({color},1)'),  # 완전 불투명
-                        fillcolor=f'rgba({color},0.2)',  # 20% 투명도
+                        x=df['Timestamp'], y=df[col],
+                        mode='lines',
+                        name=col,
+                        line=dict(color=f'rgba({color},1)'),
+                        fillcolor=f'rgba({color},0.2)',
                         showlegend=True,
                         legendgroup=col
                     ))
-                
                 fig.update_layout(
-                    # title=title,
                     xaxis_title="Timestamp",
                     yaxis_title=y_label,
                     legend_title="Legend",
                     hovermode="x unified"
                 )
-                
                 fig.update_yaxes(tickformat=',')
-
                 fig.update_layout(shapes=create_gc_bars(df, 'YGC', '255, 215, 0') + create_gc_bars(df, 'FGC', '255, 28, 37'))
                 st.plotly_chart(fig, use_container_width=True)
 
-            # Heap Utilization 차트 생성
             st.markdown("## Heap Utilization")
             create_chart("Heap Utilization", ['S0U', 'S1U', 'EU', 'MU', 'CCSU', 'OU'], "Used (KB)", ['255, 155, 0', '255, 24, 0', '0, 204, 150', '3, 61, 179', '128, 255, 0', '151, 0, 255'])
-
-            # Heap Capacity 차트 생성
             st.markdown("## Heap Capacity")
             create_chart("Heap Capacity", ['S0C', 'S1C', 'EC', 'MC', 'CCSC', 'OC'], "Capacity (KB)", ['255, 155, 0', '255, 24, 0', '0, 204, 150', '3, 61, 179', '128, 255, 0', '151, 0, 255'])
-
-            # Total Garbage Collection Events 차트 생성
             st.markdown("## Total Garbage Collection Events")
             create_chart("Garbage Collection Events", ['YGC', 'FGC'], "Events", ['0, 204, 150', '255, 28, 37'])
-
-            # Total Garbage Collection Time 차트 생성
             st.markdown("## Total Garbage Collection Time")
             create_chart("Garbage Collection Time", ['YGCT', 'FGCT', 'GCT'], "Time (Sec)", ['0, 204, 150', '255, 28, 37', '99, 102, 250'])
