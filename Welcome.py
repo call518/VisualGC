@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 # Streamlit 사이드바 설정
-st.sidebar.title("Support Us")
+#st.sidebar.title("Support Us")
 #st.sidebar.markdown("""
 #If you find this app helpful, consider supporting us by buying us a coffee. Your support is greatly appreciated!
 #""")
